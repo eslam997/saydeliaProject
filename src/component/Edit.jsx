@@ -56,7 +56,12 @@ function Edit() {
         data: formData,
       });
      
-     Swal.fire("Edit", "The product has been Edit.", "success");
+ Swal.fire({
+       title: "The product has been Edit.",
+       icon: "success",
+      timer:1000,
+      showConfirmButton:false
+     })
      setChanged(!changed)
       navigate('/DachBoard');
     } catch (error) {
