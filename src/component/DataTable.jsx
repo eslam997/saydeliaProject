@@ -43,7 +43,12 @@ const DataTable = ( ) => {
          const resultDelete= await deleteProduct(id)
          if (resultDelete === 200) {
           setChanged(!changed)
-          Swal.fire("Deleted!", "The product has been deleted.", "success");
+             Swal.fire({
+                 title: "The product has been deleted.",
+                 icon: "success",
+                timer:1000,
+                showConfirmButton:false
+               })
         }
       } })
    }
