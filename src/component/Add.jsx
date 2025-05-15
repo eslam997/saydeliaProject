@@ -39,7 +39,12 @@ const Add = () => {
         url:"https://backend-one-beta-63.vercel.app/api/products",
         data:formData,
       })
-      Swal.fire("ADD", "The product has been Add", "success");
+       Swal.fire({
+             title:"The product has been Add",
+             icon: "success",
+            timer:1000,
+            showConfirmButton:false
+           })
       setChanged(!changed)
       navigate('/DachBoard');
       setFormData({
