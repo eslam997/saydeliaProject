@@ -28,7 +28,7 @@ function Edit() {
   });
 
   useEffect(() => {
-    const product = products.find((p) => p.id === parseInt(id));
+    const product = products.find((p) => p._id === id);
     if (product) {
       setFormData({
         title: product.title,
@@ -52,7 +52,7 @@ function Edit() {
     try {
        await axios({
         method: 'put',
-        url: `http://localhost:3001/product/${id}`,
+        url: `https://backend-one-beta-63.vercel.app/api/products/${id}`,
         data: formData,
       });
      

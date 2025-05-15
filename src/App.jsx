@@ -19,6 +19,7 @@ import ProductType from './component/ProductType'
 import SignUp from './component/SignUp'
 import Login from './component/Login'
 function App() {
+
   const initialcart=localStorage.getItem("cart") 
   ? JSON.parse(localStorage.getItem("cart")):[]
 
@@ -27,27 +28,27 @@ function App() {
         localStorage.setItem("cart",JSON.stringify(items)) 
       },[items])
       const totalitems=()=>{return items.reduce((total,item)=>total+item.quantity,0)}
-     
+
 
       const addtocard=(Product)=>{
           setitems((items)=>{
           const exist = items.find((item)=>item._id===Product._id)
           if(exist){
             return items.map((item)=>
-          item.id === Product.id ?{...item , quantity:item.quantity+1}:item)
+          item._id === Product._id ?{...item , quantity:item.quantity+1}:item)
           }
           else{
             return [...items,{...Product, quantity:1}]
           }
          })
         }
-  
+
       const inq=(id)=>{setitems((items)=>items.map((item)=> 
-        item.id === id ? {...item , quantity:item.quantity+1}:item))
+        item._id === id ? {...item , quantity:item.quantity+1}:item))
       }
         
         const deq=(id)=>{setitems((items)=>items.map((item)=> 
-          item.id === id ? {...item , quantity:item.quantity-1}:item)
+          item._id === id ? {...item , quantity:item.quantity-1}:item)
           .filter((item)=>item.quantity>0)
           )
       }
@@ -57,7 +58,7 @@ function App() {
       }
        
       const removeItem = (id) => {
-        setitems(items => items.filter(item => item.id !== id));
+        setitems(items => items.filter(item => item._id !== id));
       };
 
 
@@ -78,7 +79,7 @@ function App() {
         method: "get",
         url: "https://backend-one-beta-63.vercel.app/api/products",
       });
-      setProducts(req.data.data);
+      setProducts(req.data.data.data);
     } catch (error) {
       console.log(error);
     } finally {

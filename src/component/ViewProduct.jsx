@@ -7,7 +7,7 @@ import { Card, CardBody, CardHeader, Typography, Avatar } from "@material-tailwi
 const ViewProduct = () => {
   const { products } = useContext(ProductContext);
    const {id} = useParams()
-   const product = products.find(product => product.id === parseInt(id));
+   const product = products.find(product => product._id === id);
     const navigate = useNavigate()
   return (
    <div className="flex justify-center items-center min-h-screen bg-gray-50">

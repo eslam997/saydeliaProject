@@ -5,8 +5,8 @@ import ProductContext from '../context/ProductContext'
 
 
 const Product = () => {
-  const { products, isLoading } = useContext(ProductContext);
-  const{addtocard}=useContext(ProductContext)
+  const { products, isLoading ,addtocard} = useContext(ProductContext);
+
 
   return (
     

@@ -11,6 +11,8 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { useContext } from 'react';
 import ProductContext from "../context/ProductContext"
+
+
 const Add = () => {
   const {  setChanged,changed } = useContext(ProductContext);
   const navigate = useNavigate();
@@ -34,7 +36,7 @@ const Add = () => {
     try {
       await axios({
         method:"post",
-        url:"http://localhost:3001/product",
+        url:"https://backend-one-beta-63.vercel.app/api/products",
         data:formData,
       })
       Swal.fire("ADD", "The product has been Add", "success");

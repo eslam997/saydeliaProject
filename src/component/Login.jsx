@@ -8,6 +8,8 @@ import {
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+import Swal from 'sweetalert2'
+const API="https://backend-one-beta-63.vercel.app/api/users/login"
 const Login = () => {
   const [form, setForm] = useState({
     email: '',
@@ -25,22 +27,29 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setError('');
 
     try {
-      const res = await axios.post("https://backend-one-beta-63.vercel.app/api/users/login", form);
+      const res = await axios.post(API, form);
       const token = res.data.data.token;
 
-      
-      localStorage.setItem("token", token);
 
+      localStorage.setItem("token", JSON.stringify(token));
+      
+  
+Swal.fire({
+  title: "Login Successful",
+  icon: "success",
+ timer:1000,
+ showConfirmButton:false
+});
+     
     
-      //localStorage.setItem("user", JSON.stringify(decodedUser))
+      // localStorage.setItem("user", JSON.stringify(decodedUser))
 
       navigate("/");
     } catch (err) {
-      console.error(err);
-      setError(err.response?.data?.data?.message || "Login failed");
+
+      setError(err.res?.data?.data?.message || "Login failed");
     }
   };
 
@@ -71,7 +80,7 @@ const Login = () => {
 
           {error && <Typography color="red" className="text-sm">{error}</Typography>}
 
-          <Button type="submit" className="mt-6" fullWidth>
+          <Button  type="submit" className="mt-6" fullWidth>
             Login
           </Button>
 

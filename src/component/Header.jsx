@@ -7,10 +7,13 @@ import {
     Button,
   } from "@material-tailwind/react";
   import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+  import Swal from 'sweetalert2'
   import { Link } from 'react-router-dom';
+  import { jwtDecode } from "jwt-decode";
   import { FaShoppingCart } from "react-icons/fa";
  // import { cartcontext } from './context/Cartcontext'
 import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import ProductContext from '../context/ProductContext'
 function NavList() {
   
@@ -72,9 +75,44 @@ function NavList() {
   }
 
 const Header = () => {
+    const { changed,setChanged} = useContext(ProductContext);
   const{totalitems}=useContext(ProductContext)
     const [openNav, setOpenNav] = React.useState(false);
- 
+const token = localStorage.getItem('token');
+const decodedUser = token ? jwtDecode(token) : null;
+const navigate = useNavigate();
+
+const handleAuth = () => {
+  if (decodedUser) {
+   //logout
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You are about to logout.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#007bff",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        
+           localStorage.removeItem('token');
+            setChanged(!changed);
+             navigate('/');
+
+        Swal.fire({
+          title: "Signed Out",
+          icon: "success",
+          timer: 1000,
+          showConfirmButton: false,
+        });
+      }
+    });  
+  } else {
+    navigate('/Login');
+  }
+};
+
     const handleWindowResize = () =>
       window.innerWidth >= 960 && setOpenNav(false);
    
@@ -105,10 +143,11 @@ const Header = () => {
             <Link to="/Cart " className='relative'>
              <span className='w-4 h-4 text-center text-white text-sm rounded-full bg-deep-orange-700 absolute -top-2 -right-2 ' >{totalitems()}</span> 
              <FaShoppingCart className='text-3xl text-white' /></Link>
-         
-             <Link to="/Login">
-          <Button className='bg-white text-black hover:bg-blue-gray-100  rounded-1'>Login</Button>
-          </Link>
+         {decodedUser&& <h1> welcome, {decodedUser.name}</h1>}
+           
+        <Button onClick={handleAuth} className='bg-white text-black hover:bg-blue-gray-100 rounded-1'>
+  {decodedUser ? 'Logout' : 'Login'}</Button>
+
         <IconButton
           variant="text"
           className="ml-auto h-6 w-6 text-inherit text-white hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"

@@ -7,15 +7,20 @@ import {
 } from "@material-tailwind/react";
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+
+
 const API="https://backend-one-beta-63.vercel.app/api/users/register";
 const SignUp = () => {
+    const [error, setError] = useState('');
   const [form, setForm] = useState({
     name: '',
     email: '',
     password: ''
   });
 
-  const [error, setError] = useState("");
+
+
+
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -25,17 +30,18 @@ const SignUp = () => {
     });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSingUp = async (e) => {
     e.preventDefault();
-    setError("");
+
 
     try {
-      const res = await axios.post(API, form); 
-      console.log(res.data);
-      navigate("/login"); 
+      const res = await axios.post(API, form);  
+      if(res.data.data ===201 || res.data.data ===200){
+          navigate("/login"); 
+      }
+     
     } catch (err) {
-      console.error(err);
-      setError(err.response?.data?.data?.message || "Something went wrong");
+       setError(err.res?.data?.data?.message || "SignUp failed");
     }
   };
 
@@ -45,17 +51,17 @@ const SignUp = () => {
         <Typography variant="h4" color="blue-gray" className="text-center mb-6">
           Create Account
         </Typography>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <form onSubmit={handleSingUp} className="flex flex-col gap-4">
           <Input size="lg" label="Name" name="name" value={form.name} onChange={handleChange} />
           <Input size="lg" label="Email" name="email" type="email" value={form.email} onChange={handleChange} />
           <Input size="lg" label="Password" name="password" type="password" value={form.password} onChange={handleChange} />
           
-          {error && <Typography color="red" className="text-sm">{error}</Typography>}
+        {error && <Typography color="red" className="text-sm">{error}</Typography>}
 
-          <Button type="submit" className="mt-6" fullWidth>
+          <Button  type="submit" className="mt-6" fullWidth>
             Sign Up
           </Button>
-
+          
           <Typography color="gray" className="text-center text-sm mt-4">
             Already have an account?{" "}
             <Link to="/login" className="text-blue-500 hover:underline">

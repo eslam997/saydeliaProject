@@ -20,7 +20,7 @@ const DataTable = ( ) => {
      try{
         const req = await axios ({
         method : "delete",
-        url:`http://localhost:3001/product/${id}`,})
+        url:`https://backend-one-beta-63.vercel.app/api/products/${id}`,})
         return req.status;
     }
     catch(e){
@@ -108,17 +108,17 @@ const DataTable = ( ) => {
                     className="font-medium"
                   >
                 
-                  <Link to={ `/view/${product.id}`}> 
+                  <Link to={ `/view/${product._id}`}> 
                   <Button className='m-4' color='black' size='sm'>View</Button>
                   </Link> 
                    
-                  <Link to={`/Edit/${product.id}`} > 
+                  <Link to={`/Edit/${product._id}`} > 
                    <Button  className='m-4' color='black' size='sm'> 
                   Edit 
                   </Button>
                   </Link>
               
-                <Button  className='m-4' color='red' size='sm'onClick={()=>handleDelete(product.id)}> Del</Button>
+                <Button  className='m-4' color='red' size='sm'onClick={()=>handleDelete(product._id)}> Del</Button>
                   </Typography>
                 </td>
               </tr>
